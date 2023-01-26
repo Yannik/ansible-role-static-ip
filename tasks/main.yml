@@ -1,0 +1,2 @@
+ - import_tasks: static-ip.yml
+   tags: static-ip

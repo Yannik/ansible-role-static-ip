@@ -1,0 +1,18 @@
+- name: Configure static ips
+  blockinfile:
+    path: /etc/network/interfaces
+    marker: "# {mark} ansible managed interface {{ item.iface }}"
+    insertafter: ^allow-hotplug {{ item.iface }}
+    block: |
+      iface {{ item.iface }} inet static
+      {% for key,value in item.options.items() %}
+        {{ key }} {{ value }}
+      {% endfor %}
+  loop: "{{ static_ip_config }}"
+
+- name: Remove dhcp entries
+  lineinfile:
+    path: /etc/network/interfaces
+    regexp: ^iface {{ item.iface }} inet dhcp
+    state: absent
+  loop: "{{ static_ip_config }}"
