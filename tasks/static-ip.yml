@@ -2,7 +2,7 @@
   blockinfile:
     path: /etc/network/interfaces
     marker: "# {mark} ansible managed interface {{ item.iface }}"
-    insertafter: ^allow-hotplug {{ item.iface }}
+    insertafter: ^(allow-hotplug|auto) {{ item.iface }}
     block: |
       iface {{ item.iface }} inet static
       {% for key,value in item.options.items() %}
